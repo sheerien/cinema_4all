@@ -1,5 +1,7 @@
+import cssutils
 from bs4 import BeautifulSoup
 import requests
+import re 
 from time import sleep
 # from requests.api import get
 
@@ -13,6 +15,9 @@ url = 'https://cima4u.live/category/%d8%a7%d9%81%d9%84%d8%a7%d9%85-%d8%b9%d8%b1%
 headers = {
     "USER_AGENT":"'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0'"
 }
+
+# list of title
+# titles = []
 # # Open Session
 # s = requests.Session()
 
@@ -42,16 +47,38 @@ def get_soup_object(url, headers={}):
     return soup
 
 soup = get_soup_object(url, headers=headers)
-sleep(2)
+sleep(5)
 
-for items in soup.findAll("ul", {"class":"Cima4uBlocks"}):
-    sleep(2)
+# for items in soup.findAll("ul", {"class":"Cima4uBlocks"}):
+#     # sleep(2)
+#     # print(items.text)
+#     for info in items.findAll("li", {"class":"MovieBlock"}):
+#         # sleep(3)
+#         # print(info.text)
+#         titles.append(info.text)
+
+# get title
+def get_title(soup):
+    # soup = get_soup_object(url, headers=headers)
+    # sleep(5)
+    titles = []
+    for items in soup.findAll("ul", {"class":"Cima4uBlocks"}):
+        # sleep(2)
     # print(items.text)
-    for info in items.findAll("li", {"class":"MovieBlock"}):
-        sleep(3)
-        print(info.text)
-        
-# print(soup.text)
+        for info in items.findAll("li", {"class":"MovieBlock"}):
+            # sleep(3)
+            titles.append(info.text)
+    return titles
+            # print(info.text)
+# get_title()
+
+titles = get_title(soup)
+sleep(5)
+for title in titles:
+    print(title)
 
 
-
+# soup = BeautifulSoup(html_str)
+# result = soup.find('div',attrs={'id':'img-cont','style':True})
+# if result is not None:
+#   url = re.findall('\("(http.*)"\)',result['style']) # return a list.
